@@ -362,11 +362,11 @@ export const botConfig = {
     // Welcome template posted when a user joins.
     // Placeholders: {user}, {server}, {memberCount}
     defaultWelcomeMessage:
-      "Welcome {user} to {server}! We now have {memberCount} members!",
+      "Wesh wesh canne à pêche {user} t'es sur {server}! Maintenant y'a {memberCount} pelo sur le serv.",
     // Goodbye template posted when a user leaves.
     // Placeholders: {user}, {memberCount}
     defaultGoodbyeMessage:
-      "{user} has left the server. We now have {memberCount} members.",
+      "{user} À quitté, w'allah on va le chercher ce btrd ptn, on est que {memberCount} maintenant..",
     // Channel ID for welcome messages.
     defaultWelcomeChannel: null,
     // Channel ID for goodbye messages.
@@ -407,13 +407,13 @@ export const botConfig = {
       },
       bots: {
         name: "🤖 Bots",
-        description: "Total bot accounts in the server",
+        description: "Nombre total des Bots dans le serveur.",
         getCount: (guild) =>
           guild.members.cache.filter((m) => m.user.bot).size.toString(),
       },
       members_only: {
         name: "👤 Humans",
-        description: "Total human members (non-bots)",
+        description: "Nombre total des neuilles sur le serveur.",
         getCount: (guild) =>
           guild.members.cache.filter((m) => !m.user.bot).size.toString(),
       },
@@ -424,13 +424,13 @@ export const botConfig = {
   // GENERIC BOT MESSAGES
   // =========================
   messages: {
-    noPermission: "You do not have permission to use this command.",
-    cooldownActive: "Please wait {time} before using this command again.",
-    errorOccurred: "An error occurred while executing this command.",
+    noPermission: "Tu n'a pas la permission d'utiliser cette commande, sale singe. 🦧",
+    cooldownActive: "Attend wesh.. Juste {time} avant de recommencer insha'allah",
+    errorOccurred: "W'allah Kalel il a hack le Bot ça a bug...",
     missingPermissions:
-      "I am missing required permissions to perform this action.",
-    commandDisabled: "This command has been disabled.",
-    maintenanceMode: "The bot is currently in maintenance mode.",
+      "PTDR, t'a pas les perms sale singe. 🦧",
+    commandDisabled: "Kalel il a désactiver la commande wlh.",
+    maintenanceMode: "Kalel est actuellement entrain d'écrire les Leaks 7DS Origin donc c'est en maintenance frrot.",
   },
 
   // =========================
