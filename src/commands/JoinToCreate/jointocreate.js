@@ -105,7 +105,7 @@ export default {
                     logger.debug(`TitanBotError [${error.type}]: ${error.message}`, error.context || {});
                 } else {
                     logger.error('Unexpected error in jointocreate command:', error);
-                    errorMessage = 'An unexpected error occurred. Please try again or contact support.';
+                    errorMessage = 'Wesh wesh canne à pêche, tu es nul toi, ton salon vocal ne veut même pas ce créer, ahah. -1000 aura. Bref, contacte In4ko_ espèce de singe.';
                 }
 
                 return replyUserError(interaction, { type: ErrorTypes.UNKNOWN, message: errorMessage });
