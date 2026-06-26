@@ -57,10 +57,9 @@ const getCurrentSchemaVersion = async (client) => {
 };
 
 const createTables = async (client) => {
-  logger.info('📊 Creating database tables...');
+  logger.info('📊 Création des tables de la base de données...');
 
   const tables = [
-    
     `CREATE TABLE IF NOT EXISTS guild_configs (
       guild_id VARCHAR(255) PRIMARY KEY,
       prefix VARCHAR(10) DEFAULT '!',
@@ -190,16 +189,16 @@ const createTables = async (client) => {
     try {
       await client.query(table);
     } catch (error) {
-      logger.error(`❌ Error creating table: ${error.message}`);
+      logger.error(`❌ Erreur lors de la création de la table : ${error.message}`);
       throw error;
     }
   }
 
-  logger.info('✅ All tables created successfully');
+  logger.info('✅ Toutes les tables ont été créées avec succès');
 };
 
 const createIndexes = async (client) => {
-  logger.info('📈 Creating indexes...');
+  logger.info('📈 Création des index...');
 
   const indexes = [
     'CREATE INDEX IF NOT EXISTS idx_user_levels_guild ON user_levels(guild_id)',
@@ -213,59 +212,31 @@ const createIndexes = async (client) => {
     try {
       await client.query(index);
     } catch (error) {
-      logger.error(`❌ Error creating index: ${error.message}`);
+      logger.error(`❌ Erreur lors de la création de l'index : ${error.message}`);
       throw error;
     }
   }
 
-  logger.info('✅ All indexes created successfully');
+  logger.info('✅ Tous les index ont été créés avec succès');
 };
 
 const createTriggers = async (client) => {
-  logger.info('⏰ Setting up automatic timestamps...');
+  logger.info('⏰ Configuration des horodatages automatiques...');
 
   const triggers = [
-    {
-      table: 'guild_configs',
-      name: 'update_guild_configs_timestamp'
-    },
-    {
-      table: 'user_levels',
-      name: 'update_user_levels_timestamp'
-    },
-    {
-      table: 'user_economy',
-      name: 'update_user_economy_timestamp'
-    },
-    {
-      table: 'birthdays',
-      name: 'update_birthdays_timestamp'
-    },
-    {
-      table: 'tickets',
-      name: 'update_tickets_timestamp'
-    },
-    {
-      table: 'giveaways',
-      name: 'update_giveaways_timestamp'
-    },
-    {
-      table: 'reaction_roles',
-      name: 'update_reaction_roles_timestamp'
-    },
-    {
-      table: 'welcome_system',
-      name: 'update_welcome_system_timestamp'
-    },
-    {
-      table: 'counters',
-      name: 'update_counters_timestamp'
-    }
+    { table: 'guild_configs', name: 'update_guild_configs_timestamp' },
+    { table: 'user_levels', name: 'update_user_levels_timestamp' },
+    { table: 'user_economy', name: 'update_user_economy_timestamp' },
+    { table: 'birthdays', name: 'update_birthdays_timestamp' },
+    { table: 'tickets', name: 'update_tickets_timestamp' },
+    { table: 'giveaways', name: 'update_giveaways_timestamp' },
+    { table: 'reaction_roles', name: 'update_reaction_roles_timestamp' },
+    { table: 'welcome_system', name: 'update_welcome_system_timestamp' },
+    { table: 'counters', name: 'update_counters_timestamp' }
   ];
 
   for (const { table, name } of triggers) {
     try {
-      
       await client.query(`
         CREATE OR REPLACE FUNCTION update_timestamp_${table}()
         RETURNS TRIGGER AS $$
@@ -284,30 +255,30 @@ const createTriggers = async (client) => {
         EXECUTE FUNCTION update_timestamp_${table}();
       `);
     } catch (error) {
-      logger.error(`❌ Error creating trigger for ${table}: ${error.message}`);
+      logger.error(`❌ Erreur lors de la création du trigger pour ${table} : ${error.message}`);
       throw error;
     }
   }
 
-  logger.info('✅ All triggers created successfully');
+  logger.info('✅ Tous les triggers ont été créés avec succès');
 };
 
 const migrate = async () => {
   const client = await pool.connect();
 
   try {
-    logger.info('🚀 Starting database migration...');
+    logger.info('🚀 Démarrage de la migration de la base de données...');
 
     await createTables(client);
     await createIndexes(client);
     await createTriggers(client);
     await recordSchemaVersion(client);
 
-    logger.info('✨ Migration completed successfully!');
+    logger.info('✨ Migration terminée avec succès !');
     logger.info(`📌 Schema version recorded: v${EXPECTED_SCHEMA_VERSION} (${EXPECTED_SCHEMA_LABEL})`);
-    logger.info('📚 Your database is now ready for TitanBot.');
+    logger.info('📚 Votre base de données est maintenant prête pour TitanBot.');
   } catch (error) {
-    logger.error('❌ Migration failed:', error);
+    logger.error('❌ Échec de la migration :', error);
     process.exit(1);
   } finally {
     client.release();
@@ -322,23 +293,23 @@ const checkMigrationVersion = async () => {
     const current = await getCurrentSchemaVersion(client);
 
     if (!current) {
-      logger.error(`❌ No schema version found in ${migrationTable}. Expected v${EXPECTED_SCHEMA_VERSION}.`);
+      logger.error(`❌ Aucun schéma trouvé dans ${migrationTable}. Attendu v${EXPECTED_SCHEMA_VERSION}.`);
       process.exit(1);
     }
 
     const currentVersion = Number(current.version);
     if (currentVersion !== EXPECTED_SCHEMA_VERSION) {
       logger.error(
-        `❌ Schema drift detected. Expected v${EXPECTED_SCHEMA_VERSION}, found v${currentVersion}.`
+        `❌ Dérive du schéma détectée. Attendu v${EXPECTED_SCHEMA_VERSION}, trouvé v${currentVersion}.`
       );
       process.exit(1);
     }
 
     logger.info(
-      `✅ Schema version check passed (v${currentVersion}, label: ${current.label}).`
+      `✅ Vérification de la version du schéma réussie (v${currentVersion}, libellé: ${current.label}).`
     );
   } catch (error) {
-    logger.error('❌ Migration check failed:', error);
+    logger.error('❌ Échec de la vérification de la migration :', error);
     process.exit(1);
   } finally {
     client.release();
@@ -352,16 +323,16 @@ const printMigrationStatus = async () => {
   try {
     const current = await getCurrentSchemaVersion(client);
     if (!current) {
-      logger.info(`ℹ️ No schema version recorded yet. Expected v${EXPECTED_SCHEMA_VERSION}.`);
+      logger.info(`ℹ️ Aucune version de schéma enregistrée pour le moment. Attendu v${EXPECTED_SCHEMA_VERSION}.`);
       return;
     }
 
-    logger.info(`📌 Current schema version: v${current.version}`);
-    logger.info(`🏷️ Label: ${current.label}`);
-    logger.info(`🕒 Applied at: ${current.applied_at}`);
-    logger.info(`🎯 Expected: v${EXPECTED_SCHEMA_VERSION} (${EXPECTED_SCHEMA_LABEL})`);
+    logger.info(`📌 Version actuelle du schéma : v${current.version}`);
+    logger.info(`🏷️ Libellé : ${current.label}`);
+    logger.info(`🕒 Appliqué le : ${current.applied_at}`);
+    logger.info(`🎯 Attendu : v${EXPECTED_SCHEMA_VERSION} (${EXPECTED_SCHEMA_LABEL})`);
   } catch (error) {
-    logger.error('❌ Migration status failed:', error);
+    logger.error('❌ Échec du statut de migration :', error);
     process.exit(1);
   } finally {
     client.release();
@@ -378,6 +349,6 @@ if (command === 'apply') {
 } else if (command === 'status') {
   printMigrationStatus();
 } else {
-  logger.error(`Unknown command: ${command}. Use one of: apply, check, status`);
+  logger.error(`Commande inconnue : ${command}. Utilisez : appliquer, vérifier, état`);
   process.exit(1);
 }
