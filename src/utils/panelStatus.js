@@ -42,7 +42,7 @@ export function messageHasPanelMarker(message, { buttonCustomId, selectCustomId 
     return false;
 }
 
-export function formatPanelStatusField(panelStatus, { repostHint = 'Repost Panel' } = {}) {
+export function formatPanelStatusField(panelStatus, { repostHint = 'Republier le panneau' } = {}) {
     if (!panelStatus) return '`Unknown`';
 
     if (panelStatus.exists) {
@@ -133,4 +133,3 @@ export async function getReactionRolePanelStatus(client, guild, panelData) {
         selectCustomId: 'reaction_roles',
     });
 }
-
