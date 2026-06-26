@@ -17,7 +17,7 @@ export default {
                 const embed = new EmbedBuilder()
                     .setTitle('Store')
                     .setColor(getColor('primary'))
-                    .setDescription('Use `/buy item_id:<id> quantity:<amount>` to purchase an item.');
+                    .setDescription('Use `/buy item_id:<id> quantity:<amount>` pour acheter un article.');
                 pageItems.forEach(item => {
                     embed.addFields({
                         name: `${item.name} (${item.id})`,
@@ -60,7 +60,7 @@ export default {
 
             collector.on('collect', async (buttonInteraction) => {
                 if (buttonInteraction.user.id !== interaction.user.id) {
-                    await buttonInteraction.reply({ content: '❌ You cannot use these buttons. Run `/shop` to get your own shop view.', flags: 64 });
+                    await buttonInteraction.reply({ content: '❌ Vous ne pouvez pas utiliser ces boutons. Exécutez la commande `/shop` pour accéder à la vue de votre boutique.', flags: 64 });
                     return;
                 }
                 const { customId } = buttonInteraction;
@@ -84,7 +84,7 @@ export default {
             });
         } catch (error) {
             logger.error('shop_browse error:', error);
-            await interaction.reply({ content: '❌ An error occurred while loading the shop.', flags: MessageFlags.Ephemeral });
+            await interaction.reply({ content: '❌ Une erreur s``est produite lors du chargement de la boutique.', flags: MessageFlags.Ephemeral });
         }
     },
 };
