@@ -30,7 +30,7 @@ const RIGHT_ASSOCIATIVE_OPERATORS = new Set(['^', 'u-']);
 
 function normalizeExpression(input) {
   if (typeof input !== 'string') {
-    throw new Error('Expression must be a string');
+    throw new Error('L\'expression doit être une chaîne de caractères');
   }
 
   return input
@@ -79,7 +79,7 @@ function tokenize(expression) {
         if (current === '.') {
           dotCount += 1;
           if (dotCount > 1) {
-            throw new Error('Invalid number format');
+            throw new Error('Format de nombre invalide');
           }
         }
 
@@ -88,7 +88,7 @@ function tokenize(expression) {
       }
 
       if (numberText === '.' || numberText.length === 0) {
-        throw new Error('Invalid number format');
+        throw new Error('Format de nombre invalide');
       }
 
       tokens.push({ type: 'number', value: Number(numberText) });
@@ -201,7 +201,7 @@ function toRpn(tokens) {
       }
 
       if (!hasOpeningParen) {
-        throw new Error('Mismatched parentheses');
+        throw new Error('Parenthèses mal appariées');
       }
 
       if (stack.length > 0 && stack[stack.length - 1].type === 'function') {
@@ -215,7 +215,7 @@ function toRpn(tokens) {
   while (stack.length > 0) {
     const top = stack.pop();
     if (top.type === 'leftParen' || top.type === 'rightParen') {
-      throw new Error('Mismatched parentheses');
+      throw new Error('Parenthèses mal appariées');
     }
     output.push(top);
   }
@@ -235,14 +235,14 @@ function evaluateRpn(rpnTokens) {
     if (token.type === 'operator') {
       if (token.value === 'u-') {
         if (stack.length < 1) {
-          throw new Error('Invalid expression');
+          throw new Error('Expression invalide');
         }
         stack.push(-stack.pop());
         continue;
       }
 
       if (stack.length < 2) {
-        throw new Error('Invalid expression');
+        throw new Error('Expression invalide');
       }
 
       const right = stack.pop();
@@ -261,7 +261,7 @@ function evaluateRpn(rpnTokens) {
 
     if (token.type === 'function') {
       if (stack.length < 1) {
-        throw new Error('Invalid function usage');
+        throw new Error('Utilisation de fonction invalide');
       }
 
       const value = stack.pop();
@@ -275,7 +275,7 @@ function evaluateRpn(rpnTokens) {
   }
 
   if (stack.length !== 1) {
-    throw new Error('Invalid expression');
+    throw new Error('Expression invalide');
   }
 
   return stack[0];
