@@ -59,8 +59,8 @@ export async function createInitialHelpMenu(client) {
 
     const options = [
         {
-            label: "📋 All Commands",
-            description: "Browse every available command in a single list",
+            label: "📋 Toutes les commandes",
+            description: "Parcourir toutes les commandes disponibles dans une seule liste",
             value: ALL_COMMANDS_ID,
         },
         ...categoryDirs.map((category) => {
@@ -68,7 +68,7 @@ export async function createInitialHelpMenu(client) {
             const icon = CATEGORY_ICONS[categoryName] || "🔍";
             return {
                 label: `${icon} ${categoryName}`,
-                description: `View commands in the ${categoryName} category`,
+                description: `Voir les commandes dans la catégorie ${categoryName}`,
                 value: category,
             };
         }),
@@ -76,54 +76,55 @@ export async function createInitialHelpMenu(client) {
 
     const botName = client?.user?.username || "Bot";
     const embed = createEmbed({
-        title: `📖 ${botName} Help`,
-        description: 'Set up your server, pick what to enable, then browse commands below.',
+        title: `📖 ${botName} Aide`,
+        description: 'Configure ton serveur, choisis ce que tu veux activer, puis parcours les commandes ci-dessous.',
         color: 'primary',
         thumbnail: client.user?.displayAvatarURL?.({ size: 1024 }),
         fields: [
             {
-                name: '🚀 Getting Started',
+                name: '🚀 Premiers pas',
                 value: [
-                    '**1. Launch setup** — Run `/configwizard` to configure prefix, mod role, and logs.',
-                    '**2. Enable systems** — Use `/commands dashboard` to turn categories on or off.',                    '**3. Browse commands** — Use the menu below to view categories and commands.',
+                    '**1. Lancer la configuration** — Exécutez `/configwizard` pour configurer le préfixe, le rôle modérateur et les logs.',
+                    '**2. Activer les systèmes** — Utilisez `/commands dashboard` pour activer ou désactiver les catégories.',
+                    '**3. Parcourir les commandes** — Utilisez le menu ci-dessous pour voir les catégories et commandes.',
                 ].join('\n'),
                 inline: false,
             },
             {
-                name: 'ℹ️ How It Works',
+                name: 'ℹ️ Comment ça fonctionne',
                 value: [
-                    '• Dashboard commands manage each feature visually',
-                    '• Settings are saved per server',
-                    '• Slash commands and prefixes both work once enabled',
+                    '• Les commandes du tableau de bord gèrent chaque fonctionnalité de manière visuelle',
+                    '• Les paramètres sont enregistrés par serveur',
+                    '• Les commandes slash et préfixes fonctionnent une fois activés',
                 ].join('\n'),
                 inline: false,
             },
             {
                 name: '\u200B',
-                value: `-# ${botName} is [open source](https://youtu.be/1jCZX8s3bJE?si=NPOYx-vxVE1I5vJK)`,
+                value: `-# ${botName} est [open source](https://youtu.be/1jCZX8s3bJE?si=NPOYx-vxVE1I5vJK)`,
                 inline: false,
             },
         ],
     });
 
     embed.setFooter({ 
-        text: "Made with ❤️" 
+        text: "Fait avec ❤️" 
     });
     embed.setTimestamp();
 
     const bugReportButton = new ButtonBuilder()
         .setCustomId(BUG_REPORT_BUTTON_ID)
-        .setLabel("Report Bug")
+        .setLabel("Signaler un bug")
         .setStyle(ButtonStyle.Danger);
 
     const supportButton = new ButtonBuilder()
-        .setLabel("Support Server")
+        .setLabel("Serveur de support")
         .setURL("https://discord.gg/QnWNz2dKCE")
         .setStyle(ButtonStyle.Link);
 
     const selectRow = createSelectMenu(
         CATEGORY_SELECT_ID,
-        "Select to view the commands",
+        "Sélectionnez pour voir les commandes",
         options,
     );
 
@@ -142,7 +143,7 @@ export default {
     slashOnly: true,
     data: new SlashCommandBuilder()
         .setName("help")
-        .setDescription("Displays the help menu with all available commands"),
+        .setDescription("Affiche le menu d'aide avec toutes les commandes disponibles"),
 
     async execute(interaction, guildConfig, client) {
         
@@ -163,8 +164,8 @@ export default {
                 }
 
                 const closedEmbed = createEmbed({
-                    title: "Help menu closed",
-                    description: "Help menu has been closed, use /help again.",
+                    title: "Menu d'aide fermé",
+                    description: "Le menu d'aide a été fermé, utilisez /help à nouveau.",
                     color: "secondary",
                 });
 
