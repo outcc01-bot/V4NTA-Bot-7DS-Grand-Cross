@@ -104,7 +104,7 @@ export function getPrefixRestriction(command, args, resolveSubcommandAlias) {
   if (resolvedFirstArg && isSubcommandBlocked(commandName, resolvedFirstArg)) {
     return {
       blocked: true,
-      reason: 'This subcommand is only available as a slash command.',
+      reason: 'Cette sous-commande est disponible uniquement sous forme de commande « / ».',
     };
   }
 
