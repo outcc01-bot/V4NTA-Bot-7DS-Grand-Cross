@@ -14,28 +14,28 @@ export const shopConfig = {
         {
             id: 'consumables',
             name: 'Consumables',
-            description: 'One-time use items that provide temporary benefits',
+            description: 'Articles à usage unique qui procurent des bonus temporaires.',
             icon: '🍯',
             itemTypes: ['consumable']
         },
         {
             id: 'upgrades',
             name: 'Upgrades',
-            description: 'Permanent upgrades that enhance your abilities',
+            description: 'Des améliorations permanentes qui renforcent vos capacités.',
             icon: '⚡',
             itemTypes: ['upgrade']
         },
         {
             id: 'tools',
             name: 'Tools',
-            description: 'Equipment that helps you gather resources more efficiently',
+            description: 'Du matériel qui vous aide à collecter des ressources plus efficacement.',
             icon: '⛏️',
             itemTypes: ['tool']
         },
         {
             id: 'roles',
             name: 'Roles',
-            description: 'Special roles with unique perks',
+            description: 'Des rôles spéciaux offrant des avantages uniques',
             icon: '🎭',
             itemTypes: ['role']
         }
@@ -96,8 +96,8 @@ mythic: '#E74C3C'
         restock: {
             enabled: true,
 interval: 86400000,
-announcementChannel: null,
-            message: '🛒 **Shop Restocked!** New items are now available!'
+announcementChannel: 1519933217954730065,
+            message: '🛒 **La boutique a été réapprovisionnée !** De nouveaux articles sont désormais disponibles !'
         },
         
         sales: {
@@ -106,7 +106,7 @@ announcementChannel: null,
                 {
 day: 0,
 discount: 0.2,
-                    message: '🔥 **Weekend Sale!** 20% off all items!'
+                    message: '🔥 **Soldes du week-end !** 20 % de réduction sur tous les articles !'
                 },
             ]
         }
@@ -156,7 +156,7 @@ export function getCategoryForItem(itemType) {
     ) || {
         id: 'other',
         name: 'Other',
-        description: 'Miscellaneous items',
+        description: 'Divers',
         icon: '📦'
     };
 }
