@@ -121,7 +121,7 @@ export async function checkModerationPermissions(
   interaction,
   guildConfig,
   requiredPermissions,
-  errorMessage = 'You do not have permission to use this command.'
+  errorMessage = "Vous n'avez pas la permission d'utiliser cette commande."
 ) {
   if (memberHasModerationCommandAccess(interaction.member, guildConfig, requiredPermissions)) {
     return true;
@@ -133,7 +133,7 @@ export async function checkModerationPermissions(
     context: { source: 'permissionGuard.checkModerationPermissions' },
   });
 
-  logger.warn('[PERMISSION_DENIED] Moderation command blocked', {
+  logger.warn('[PERMISSION_DENIED] Commande de modération bloquée', {
     userId: interaction.user?.id,
     guildId: interaction.guildId,
     command: interaction.commandName,
@@ -164,7 +164,7 @@ export async function enforceDefaultCommandPermissions(interaction, command, con
   const commandName = command?.data?.name ?? interaction.commandName ?? 'command';
   await replyUserError(interaction, {
     type: ErrorTypes.PERMISSION,
-    message: 'You do not have permission to use this command.',
+    message: "Vous n'avez pas la permission d'utiliser cette commande.",
     context: {
       source: context.source ?? 'permissionGuard.enforceDefaultCommandPermissions',
       commandName,
@@ -172,7 +172,7 @@ export async function enforceDefaultCommandPermissions(interaction, command, con
     },
   });
 
-  logger.warn('[PERMISSION_DENIED] Prefix command blocked by default_member_permissions', {
+  logger.warn('[PERMISSION_DENIED] Commande préfixe bloquée par default_member_permissions', {
     userId: interaction.user?.id,
     guildId: interaction.guildId,
     command: commandName,
@@ -213,7 +213,7 @@ export function botHasPermission(channel, permissions) {
 export async function checkUserPermissions(
   interaction,
   requiredPermissions,
-  errorMessage = 'You do not have permission to use this command.'
+  errorMessage = "Vous n'avez pas la permission d'utiliser cette commande."
 ) {
   const member = interaction.member;
 
@@ -225,7 +225,7 @@ export async function checkUserPermissions(
     });
 
     logger.warn(
-      `[PERMISSION_DENIED] User ${member.id} attempted command ${interaction.commandName} in guild ${interaction.guildId}`
+      `[PERMISSION_DENIED] L'utilisateur ${member.id} a tenté d'exécuter la commande ${interaction.commandName} dans le serveur ${interaction.guildId}`
     );
     return false;
   }
@@ -243,7 +243,7 @@ export async function checkBotPermissions(
   if (!targetChannel || !targetChannel.guild) {
     await replyUserError(interaction, {
       type: ErrorTypes.UNKNOWN,
-      message: 'Could not determine channel.',
+      message: 'Impossible de déterminer le salon.',
       context: { source: 'permissionGuard.checkBotPermissions' }
     });
     return false;
@@ -253,7 +253,7 @@ export async function checkBotPermissions(
   if (!botMember) {
     await replyUserError(interaction, {
       type: ErrorTypes.UNKNOWN,
-      message: 'Could not find bot member in this guild.',
+      message: 'Impossible de trouver le bot dans ce serveur.',
       context: { source: 'permissionGuard.checkBotPermissions' }
     });
     return false;
@@ -272,12 +272,12 @@ export async function checkBotPermissions(
   if (missingPerms.length > 0) {
     await replyUserError(interaction, {
       type: ErrorTypes.PERMISSION,
-      message: `I need the following permissions in ${targetChannel}: ${missingPerms.join(', ')}`,
+      message: `J'ai besoin des permissions suivantes dans ${targetChannel} : ${missingPerms.join(', ')}`,
       context: { source: 'permissionGuard.checkBotPermissions', subtype: 'bot_permission' }
     });
 
     logger.warn(
-      `[BOT_PERMISSION_DENIED] Bot missing permissions [${missingPerms.join(', ')}] in channel ${targetChannel.id}`
+      `[BOT_PERMISSION_DENIED] Le bot manque des permissions [${missingPerms.join(', ')}] dans le salon ${targetChannel.id}`
     );
     return false;
   }
@@ -301,10 +301,10 @@ export function auditPermissionCheck(userId, action, allowed, reason = null) {
   const userHash = hashUserId(userId);
 
   if (allowed) {
-    logger.debug('[PERMISSION_AUDIT] Permission granted', { action, userHash });
+    logger.debug('[PERMISSION_AUDIT] Permission accordée', { action, userHash });
   } else {
     const denyReason = reason || 'insufficient_permissions';
-    logger.warn('[PERMISSION_AUDIT] Permission denied', { action, userHash, reason: denyReason });
+    logger.warn('[PERMISSION_AUDIT] Permission refusée', { action, userHash, reason: denyReason });
   }
 }
 
