@@ -47,7 +47,7 @@ function ensureCommand(command) {
   });
 
   if (result.status !== 0) {
-    throw new Error(`${command} is required but was not found in PATH.`);
+    throw new Error(`${command} est requis mais n'a pas été trouvé dans le PATH.`);
   }
 }
 
@@ -102,7 +102,7 @@ async function run() {
   const args = parseArgs(process.argv.slice(2));
   const sourceDatabaseUrl = process.env.POSTGRES_URL;
   if (!sourceDatabaseUrl) {
-    throw new Error('Missing required environment variable: POSTGRES_URL');
+    throw new Error('Variable d\'environnement requise manquante : POSTGRES_URL');
   }
 
   const keepDrillDatabase = args['keep-db'] === true || args['keep-db'] === 'true';
@@ -122,7 +122,7 @@ async function run() {
 
   const maintenancePool = new Pool({ connectionString: maintenanceUrl });
 
-  logger.info('Starting restore drill', {
+  logger.info('Démarrage du test de restauration', {
     event: 'restore_drill.start',
     drillDatabaseName
   });
@@ -165,17 +165,17 @@ async function run() {
       );
 
       if (tableCount.rows[0]?.value <= 0) {
-        throw new Error('Restore drill verification failed: no public tables restored.');
+        throw new Error('Échec de la vérification du test de restauration : aucune table publique restaurée.');
       }
 
       if (migrationTableCount.rows[0]?.value <= 0) {
-        throw new Error('Restore drill verification failed: schema_migrations table missing.');
+        throw new Error('Échec de la vérification du test de restauration : table schema_migrations manquante.');
       }
     } finally {
       await verifyPool.end();
     }
 
-    logger.info('Restore drill completed successfully', {
+    logger.info('Test de restauration terminé avec succès', {
       event: 'restore_drill.completed',
       drillDatabaseName,
       backupPath
@@ -200,7 +200,7 @@ async function run() {
 }
 
 run().catch((error) => {
-  logger.error('Restore drill failed', {
+  logger.error('Échec du test de restauration', {
     event: 'restore_drill.failed',
     error: error.message
   });
