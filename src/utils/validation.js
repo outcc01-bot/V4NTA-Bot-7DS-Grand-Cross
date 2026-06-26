@@ -2,7 +2,7 @@
 
 import { logger } from './logger.js';
 
-export function validateString(value, fieldName = 'string', maxLength = 2000) {
+export function validateString(value, fieldName = 'chaîne de caractères', maxLength = 2000) {
   if (typeof value !== 'string') {
     logger.warn(`[VALIDATION] ${fieldName} must be a string, got ${typeof value}`);
     return null;
@@ -21,7 +21,7 @@ export function validateString(value, fieldName = 'string', maxLength = 2000) {
   return value;
 }
 
-export function validateNumber(value, fieldName = 'number') {
+export function validateNumber(value, fieldName = 'nombre') {
   if (typeof value !== 'number' || isNaN(value)) {
     logger.warn(`[VALIDATION] ${fieldName} must be a valid number, got ${value}`);
     return null;
@@ -35,7 +35,7 @@ export function validateNumber(value, fieldName = 'number') {
   return value;
 }
 
-export function validateDiscordId(value, fieldName = 'ID') {
+export function validateDiscordId(value, fieldName = 'identifiant') {
   if (typeof value !== 'string') {
     logger.warn(`[VALIDATION] ${fieldName} must be a string`);
     return null;
@@ -49,7 +49,7 @@ export function validateDiscordId(value, fieldName = 'ID') {
   return value;
 }
 
-export function validateCustomId(value, fieldName = 'customId') {
+export function validateCustomId(value, fieldName = 'identifiant personnalisé') {
   if (typeof value !== 'string' || value.length === 0) {
     logger.warn(`[VALIDATION] ${fieldName} must be a non-empty string`);
     return null;
@@ -68,7 +68,7 @@ export function validateCustomId(value, fieldName = 'customId') {
   return value;
 }
 
-export function validateRequiredProps(obj, requiredProps, objName = 'object') {
+export function validateRequiredProps(obj, requiredProps, objName = 'objet') {
   if (!obj || typeof obj !== 'object') {
     logger.warn(`[VALIDATION] ${objName} must be an object`);
     return false;
@@ -99,7 +99,7 @@ export function validateUrl(value, fieldName = 'URL') {
   }
 }
 
-export function validateRange(value, min, max, fieldName = 'value') {
+export function validateRange(value, min, max, fieldName = 'valeur') {
   if (typeof value !== 'number' || isNaN(value)) {
     logger.warn(`[VALIDATION] ${fieldName} must be a number`);
     return null;
@@ -113,7 +113,7 @@ export function validateRange(value, min, max, fieldName = 'value') {
   return value;
 }
 
-export function validateEnum(value, allowedValues, fieldName = 'value') {
+export function validateEnum(value, allowedValues, fieldName = 'valeur') {
   if (!allowedValues.includes(value)) {
     logger.warn(`[VALIDATION] ${fieldName} must be one of: ${allowedValues.join(', ')}`);
     return null;
