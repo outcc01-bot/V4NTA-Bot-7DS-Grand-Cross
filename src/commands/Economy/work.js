@@ -10,22 +10,22 @@ const MIN_WORK_AMOUNT = 50;
 const MAX_WORK_AMOUNT = 300;
 const LAPTOP_MULTIPLIER = 1.5;
 const WORK_JOBS = [
-    "Software Developer",
+    "Développeur logiciel",
     "Barista",
-    "Janitor",
-    "YouTuber",
-    "Discord Bot Developer",
-    "Cashier",
-    "Pizza Delivery Driver",
-    "Librarian",
-    "Gardener",
-    "Data Analyst",
+    "Agent d'entretien",
+    "YouTubeur",
+    "Développeur de bot Discord",
+    "Caissier",
+    "Livreur de pizzas",
+    "Bibliothécaire",
+    "Jardinier",
+    "Analyste de données",
 ];
 
 export default {
     data: new SlashCommandBuilder()
         .setName('work')
-        .setDescription('Work to earn some money'),
+        .setDescription('Travaille pour gagner de l\'argent'),
 
     execute: withErrorHandling(async (interaction, config, client) => {
         const deferred = await InteractionHelper.safeDefer(interaction);
@@ -39,9 +39,9 @@ export default {
 
             if (!userData) {
                 throw createError(
-                    "Failed to load economy data for work",
+                    "Échec du chargement des données économiques pour le travail",
                     ErrorTypes.DATABASE,
-                    "Failed to load your economy data. Please try again later.",
+                    "Impossible de charger vos données économiques. Veuillez réessayer plus tard.",
                     { userId, guildId }
                 );
             }
@@ -63,9 +63,9 @@ export default {
                 } else {
                     const remaining = lastWork + WORK_COOLDOWN - now;
                     throw createError(
-                        "Work cooldown active",
+                        "Temps de recharge du travail actif",
                         ErrorTypes.RATE_LIMIT,
-                        `You're working too fast! Wait **${Math.floor(remaining / 3600000)}h ${Math.floor((remaining % 3600000) / 60000)}m** before working again.`,
+                        `Vous travaillez trop vite ! Attendez encore **${Math.floor(remaining / 3600000)}h ${Math.floor((remaining % 3600000) / 60000)}m** avant de retravailler.`,
                         { timeRemaining: remaining, cooldownType: 'work' }
                     );
                 }
@@ -77,7 +77,7 @@ export default {
             let multiplierMessage = "";
             if (hasLaptop > 0) {
                 earned = Math.floor(earned * LAPTOP_MULTIPLIER);
-                multiplierMessage = "\n💻 **Laptop Bonus:** +50% earnings!";
+                multiplierMessage = "\n💻 **Bonus de l'ordinateur portable :** +50 % de gains !";
             }
 
             userData.wallet = (userData.wallet || 0) + earned;
@@ -97,23 +97,23 @@ export default {
             });
 
             const embed = successEmbed(
-                "💼 Work Complete!",
-                `You worked as a **${job}** and earned **$${earned.toLocaleString()}**!${multiplierMessage}`
+                "💼 Travail terminé !",
+                `Vous avez travaillé en tant que **${job}** et gagné **$${earned.toLocaleString()}** !${multiplierMessage}`
             )
                 .addFields(
                     {
-                        name: "New Balance",
+                        name: "Nouveau solde",
                         value: `$${userData.wallet.toLocaleString()}`,
                         inline: true,
                     },
                     {
-                        name: "Next Work",
+                        name: "Prochain travail",
                         value: `<t:${Math.floor((now + WORK_COOLDOWN) / 1000)}:R>`,
                         inline: true,
                     }
                 )
                 .setFooter({
-                    text: `Requested by ${interaction.user.tag}`,
+                    text: `Demandé par ${interaction.user.tag}`,
                     iconURL: interaction.user.displayAvatarURL(),
                 });
 
