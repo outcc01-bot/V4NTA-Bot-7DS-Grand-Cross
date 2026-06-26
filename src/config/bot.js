@@ -59,9 +59,9 @@ export const botConfig = {
   applications: {
     // Default questions shown when someone fills out an application.
     defaultQuestions: [
-      { question: "What is your name?", required: true },
-      { question: "How old are you?", required: true },
-      { question: "Why do you want to join?", required: true },
+      { question: "C'est quoi ton blaze pelo?", required: true },
+      { question: "Ton âge ?", required: true },
+      { question: "Pourquoi tu veux join frrot ?", required: true },
     ],
 
     // Embed colors by application status.
@@ -139,7 +139,7 @@ export const botConfig = {
     },
     footer: {
       // Default footer text used in bot embeds.
-      text: "Titan Bot",
+      text: "V4NTA Bot",
       // Footer icon URL (null = no icon).
       icon: null,
     },
@@ -322,9 +322,9 @@ export const botConfig = {
 
       // Human-readable descriptions for each criteria mode.
       criteria: {
-        account_age: "Account must be older than specified days",
-        server_size: "All users if server has less than 1000 members",
-        none: "All users immediately"
+        account_age: "Ton compte il est encore entrain de jouer dans la boue frrot..",
+        server_size: "Tous les utilisateurs si le serveur compte moins de 1 000 membres",
+        none: "Tout les utilisateurs maintenant"
       }
     },
 
