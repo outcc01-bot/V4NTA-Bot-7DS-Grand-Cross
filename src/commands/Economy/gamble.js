@@ -13,11 +13,11 @@ const GAMBLE_COOLDOWN = 5 * 60 * 1000;
 export default {
     data: new SlashCommandBuilder()
         .setName('gamble')
-        .setDescription('Gamble your money for a chance to win more')
+        .setDescription('Joue ton argent pour avoir une chance d’en gagner davantage')
         .addIntegerOption(option =>
             option
                 .setName('amount')
-                .setDescription('Amount of cash to gamble')
+                .setDescription('Montant d’argent à miser')
                 .setRequired(true)
                 .setMinValue(1)
         ),
@@ -42,18 +42,18 @@ export default {
                 const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
 
                 throw createError(
-                    "Gamble cooldown active",
+                    "Temps de recharge du pari actif",
                     ErrorTypes.RATE_LIMIT,
-                    `You need to cool down before gambling again. Wait **${minutes}m ${seconds}s**.`,
+                    `Tu dois attendre avant de pouvoir rejouer. Réessaie dans **${minutes}m ${seconds}s**.`,
                     { remaining, cooldownType: 'gamble' }
                 );
             }
 
             if (userData.wallet < betAmount) {
                 throw createError(
-                    "Insufficient cash for gamble",
+                    "Argent insuffisant pour parier",
                     ErrorTypes.VALIDATION,
-                    `You only have $${userData.wallet.toLocaleString()} cash, but you are trying to bet $${betAmount.toLocaleString()}.`,
+                    `Tu n'as que **$${userData.wallet.toLocaleString()}** en liquide, mais tu essaies de miser **$${betAmount.toLocaleString()}**.`,
                     { required: betAmount, current: userData.wallet }
                 );
             }
@@ -66,14 +66,14 @@ export default {
             if (cloverCount > 0) {
                 winChance += CLOVER_WIN_BONUS;
                 userData.inventory["lucky_clover"] -= 1;
-                cloverMessage = `\n🍀 **Lucky Clover Consumed:** Your win chance was boosted!`;
+                cloverMessage = `\n🍀 **Trèfle Porte-Bonheur consommé :** Tes chances de gagner ont été augmentées !`;
                 usedClover = true;
             }
             
             else if (charmCount > 0) {
                 winChance += CHARM_WIN_BONUS;
                 userData.inventory["lucky_charm"] -= 1;
-                cloverMessage = `\n🍀 **Lucky Charm Used (${charmCount - 1} uses remaining):** Your win chance was boosted!`;
+                cloverMessage = `\n🍀 **Porte-Bonheur utilisé (${charmCount - 1} utilisations restantes) :** Tes chances de gagner ont été augmentées !`;
                 usedCharm = true;
             }
 
@@ -86,15 +86,15 @@ export default {
 cashChange = amountWon;
 
                 resultEmbed = successEmbed(
-                    "🎉 You Won!",
-                    `You successfully gambled and turned your **$${betAmount.toLocaleString()}** bet into **$${amountWon.toLocaleString()}**!${cloverMessage}`,
+                    "🎉 Tu as gagné !",
+                    `Tu as réussi ton pari et transformé ta mise de **$${betAmount.toLocaleString()}** en **$${amountWon.toLocaleString()}** !${cloverMessage}`,
                 );
             } else {
 cashChange = -betAmount;
 
                 resultEmbed = warningEmbed(
-                    "💔 You Lost...",
-                    `The dice rolled against you. You lost your **$${betAmount.toLocaleString()}** bet.`,
+                    "💔 Tu as perdu...",
+                    `Les dés n'ont pas été de ton côté. Tu as perdu ta mise de **$${betAmount.toLocaleString()}**.`,
                 );
             }
 
@@ -106,22 +106,22 @@ userData.lastGamble = now;
             const newCash = userData.wallet;
 
             resultEmbed.addFields({
-                name: "New Cash Balance",
+                name: "Nouveau solde en liquide",
                 value: `$${newCash.toLocaleString()}`,
                 inline: true,
             });
 
             if (usedClover) {
                 resultEmbed.setFooter({
-                    text: `You have ${userData.inventory["lucky_clover"]} Lucky Clovers left. Win chance was ${Math.round(winChance * 100)}%.`,
+                    text: `Il te reste ${userData.inventory["lucky_clover"]} Trèfles Porte-Bonheur. Tes chances de gagner étaient de ${Math.round(winChance * 100)}%.`,
                 });
             } else if (usedCharm) {
                 resultEmbed.setFooter({
-                    text: `You have ${userData.inventory["lucky_charm"]} Lucky Charm uses left. Win chance was ${Math.round(winChance * 100)}%.`,
+                    text: `Il te reste ${userData.inventory["lucky_charm"]} utilisations du Porte-Bonheur. Tes chances de gagner étaient de ${Math.round(winChance * 100)}%.`,
                 });
             } else {
                 resultEmbed.setFooter({
-                    text: `Next gamble available in 5 minutes. Base win chance: ${Math.round(BASE_WIN_CHANCE * 100)}%.`,
+                    text: `Prochain pari disponible dans 5 minutes. Chances de victoire de base : ${Math.round(BASE_WIN_CHANCE * 100)}%.`,
                 });
             }
 
