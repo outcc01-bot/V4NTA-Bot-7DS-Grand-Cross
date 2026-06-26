@@ -53,7 +53,7 @@ roleId: 1519929151371477174,
         id: 'lucky_clover',
         name: 'Lucky Clover',
         price: 10000,
-        description: 'Increases the chance of winning a higher payout on `/gamble` once.',
+        description: 'Augmente une fois les chances de remporter un gain plus élevé avec la commande `/gamble`.',
         type: 'consumable',
         maxQuantity: 10,
         effect: {
@@ -66,7 +66,7 @@ roleId: 1519929151371477174,
         id: 'fishing_rod',
         name: '🎣 Fishing Rod',
         price: 5000,
-        description: 'Used for fishing commands',
+        description: 'Utilisé pour les commandes de pêche.',
         type: 'tool',
         durability: 100,
         effect: {
@@ -78,7 +78,7 @@ roleId: 1519929151371477174,
         id: 'pickaxe',
         name: '⛏️ Pickaxe',
         price: 7500,
-        description: 'Used for mining commands',
+        description: 'Utilisé pour les commandes d`exploitation minière.',
         type: 'tool',
         durability: 100,
         effect: {
@@ -90,7 +90,7 @@ roleId: 1519929151371477174,
         id: 'laptop',
         name: '💻 Laptop',
         price: 15000,
-        description: 'Increases work earnings',
+        description: 'Augmente les revenus de la commande `/work`.',
         type: 'tool',
         durability: 200,
         effect: {
@@ -102,7 +102,7 @@ roleId: 1519929151371477174,
         id: 'lucky_charm',
         name: '🍀 Lucky Charm',
         price: 10000,
-        description: 'Increases luck for gambling. Has 3 uses before being consumed.',
+        description: 'Augmente la chance aux jeux d`argent. Peut être utilisé 3 fois avant d`être consommé.',
         type: 'consumable',
         maxQuantity: 10,
         effect: {
@@ -115,7 +115,7 @@ roleId: 1519929151371477174,
         id: 'bank_note',
         name: '📜 Bank Note',
         price: 25000,
-        description: 'Increases bank capacity by 10,000. Can be purchased multiple times.',
+        description: 'Augmente la capacité de la banque de 10 000. Peut être acheté plusieurs fois.',
         type: 'tool',
         durability: null,
         effect: {
@@ -127,7 +127,7 @@ roleId: 1519929151371477174,
         id: 'personal_safe',
         name: '🔒 Personal Safe',
         price: 30000,
-        description: 'Protects your money from theft. Prevents others from robbing you.',
+        description: 'Protège votre argent contre le vol. Empêche les autres de vous voler.',
         type: 'tool',
         durability: null,
         effect: {
@@ -153,7 +153,7 @@ export function getItemPrice(itemId) {
 export function validatePurchase(itemId, userData) {
     const item = getItemById(itemId);
     if (!item) {
-        return { valid: false, reason: 'Item not found' };
+        return { valid: false, reason: 'Objet non reconnu' };
     }
 
     const inventory = userData.inventory || {};
@@ -164,7 +164,7 @@ export function validatePurchase(itemId, userData) {
         if (currentQuantity >= item.maxQuantity) {
             return { 
                 valid: false, 
-                reason: `You can only have a maximum of ${item.maxQuantity} ${item.name}s` 
+                reason: `Tu peux uniquement avoir un maximum de ${item.maxQuantity} ${item.name}s` 
             };
         }
     }
@@ -174,7 +174,7 @@ export function validatePurchase(itemId, userData) {
         if (upgrades[itemId]) {
             return { 
                 valid: false, 
-                reason: `You've already purchased ${item.name}` 
+                reason: `Vous avez déjà acheté ${item.name}` 
             };
         }
     }
@@ -185,7 +185,7 @@ export function validatePurchase(itemId, userData) {
         if (itemId !== 'bank_note' && currentQuantity > 0) {
             return { 
                 valid: false, 
-                reason: `You already have a ${item.name}` 
+                reason: `Vous avez déjà un ${item.name}` 
             };
         }
     }
@@ -194,7 +194,7 @@ export function validatePurchase(itemId, userData) {
         if (userData.roles?.includes(item.roleId)) {
             return { 
                 valid: false, 
-                reason: `You already have the ${item.name} role` 
+                reason: `Vous avez déjà le ${item.name} role` 
             };
         }
     }
