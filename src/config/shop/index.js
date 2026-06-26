@@ -154,7 +154,7 @@ export function getCategoryForItem(itemType) {
     return shopConfig.categories.find(cat => 
         cat.itemTypes.includes(itemType)
     ) || {
-        id: 'other',
+        id: 'autre',
         name: 'Autre',
         description: 'Divers',
         icon: '📦'
