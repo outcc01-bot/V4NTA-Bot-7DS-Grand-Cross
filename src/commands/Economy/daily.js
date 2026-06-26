@@ -14,7 +14,7 @@ const PREMIUM_BONUS_PERCENTAGE = 0.1;
 export default {
     data: new SlashCommandBuilder()
         .setName('daily')
-        .setDescription('Claim your daily cash reward'),
+        .setDescription('Récupère ta récompense quotidienne'),
 
     execute: withErrorHandling(async (interaction, config, client) => {
         const deferred = await InteractionHelper.safeDefer(interaction);
@@ -30,9 +30,9 @@ export default {
             
             if (!userData) {
                 throw createError(
-                    "Failed to load economy data for daily",
+                    "Échec du chargement des données économiques pour la récompense quotidienne",
                     ErrorTypes.DATABASE,
-                    "Failed to load your economy data. Please try again later.",
+                    "Impossible de charger tes données économiques. Réessaie plus tard.",
                     { userId, guildId }
                 );
             }
@@ -42,9 +42,9 @@ export default {
             if (now < lastDaily + DAILY_COOLDOWN) {
                 const timeRemaining = lastDaily + DAILY_COOLDOWN - now;
                 throw createError(
-                    "Daily cooldown active",
+                    "Temps d'attente de la récompense quotidienne encore actif",
                     ErrorTypes.RATE_LIMIT,
-                    `You need to wait before claiming daily again. Try again in **${formatDuration(timeRemaining)}**.`,
+                    `Tu dois attendre avant de récupérer à nouveau ta récompense quotidienne. Réessaie dans **${formatDuration(timeRemaining)}**.`,
                     { timeRemaining, cooldownType: 'daily' }
                 );
             }
@@ -65,7 +65,7 @@ export default {
                     DAILY_AMOUNT * PREMIUM_BONUS_PERCENTAGE,
                 );
                 earned += bonusAmount;
-                bonusMessage = `\n✨ **Premium Bonus:** +$${bonusAmount.toLocaleString()}`;
+                bonusMessage = `\n✨ **Bonus Premium :** +$${bonusAmount.toLocaleString()}`;
                 hasPremiumRole = true;
             }
 
@@ -84,18 +84,18 @@ export default {
             });
 
             const embed = successEmbed(
-                "✅ Daily Claimed!",
-                `You have claimed your daily **$${earned.toLocaleString()}**!${bonusMessage}`
+                "✅ Récompense quotidienne récupérée !",
+                `Tu as récupéré **$${earned.toLocaleString()}** !${bonusMessage}`
             )
                 .addFields({
-                    name: "New Cash Balance",
+                    name: "Nouveau solde d'argent",
                     value: `$${userData.wallet.toLocaleString()}`,
                     inline: true,
                 })
                 .setFooter({
                     text: hasPremiumRole
-                        ? `Next claim in 24 hours. (Premium Active)`
-                        : `Next claim in 24 hours.`,
+                        ? `Prochaine récupération dans 24 heures. (Premium actif)`
+                        : `Prochaine récupération dans 24 heures.`,
                 });
 
             await InteractionHelper.safeEditReply(interaction, { embeds: [embed] });
