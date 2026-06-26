@@ -52,7 +52,7 @@ const VerificationConfigSchema = z
     messageId: z.string().nullable().optional(),
     roleId: z.string().optional(),
     message: z.string().optional(),
-    buttonText: z.string().default('Verify'),
+    buttonText: z.string().default('Vérifier'),
     autoVerify: AutoVerifyConfigSchema
   })
   .optional();
@@ -221,9 +221,9 @@ export function validateGuildConfigOrThrow(rawConfig, context = {}) {
   }
 
   throw createError(
-    'Invalid guild configuration payload',
+    'Payload de configuration de guilde invalide',
     ErrorTypes.VALIDATION,
-    'Configuration payload is invalid. Please review provided values and try again.',
+    'La configuration est invalide. Veuillez vérifier les valeurs fournies et réessayer.',
     {
       ...context,
       errorCode: 'VALIDATION_FAILED',
