@@ -118,8 +118,8 @@ export async function createInitialHelpMenu(client) {
         .setStyle(ButtonStyle.Danger);
 
     const supportButton = new ButtonBuilder()
-        .setLabel("Serveur de support")
-        .setURL("https://discord.gg/QnWNz2dKCE")
+        .setLabel("Serveur support")
+        .setURL("https://discord.gg/fsppzPWscp")
         .setStyle(ButtonStyle.Link);
 
     const selectRow = createSelectMenu(
