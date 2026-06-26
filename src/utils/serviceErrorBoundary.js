@@ -52,8 +52,8 @@ export function ensureTypedServiceError(error, options = {}) {
   const context = normalizeBoundaryContext(options.context);
   const fallbackType = options.type || ErrorTypes.UNKNOWN;
   const type = inferErrorType(error, fallbackType);
-  const service = options.service || 'unknown_service';
-  const operation = options.operation || 'unknown_operation';
+  const service = options.service || 'service_inconnu';
+  const operation = options.operation || 'operation_inconnue';
   const errorCode = resolveErrorCode({
     error,
     errorType: type,
@@ -63,7 +63,7 @@ export function ensureTypedServiceError(error, options = {}) {
   });
   const errorMetadata = getErrorMetadata(errorCode);
   const message = options.message || `${service}.${operation} failed`;
-  const userMessage = options.userMessage || 'Something went wrong while processing your request.';
+  const userMessage = options.userMessage || 'Une erreur s\'est produite lors du traitement de votre requête.';
 
   return createError(message, type, userMessage, {
     ...context,
