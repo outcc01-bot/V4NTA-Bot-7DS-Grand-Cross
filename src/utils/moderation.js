@@ -6,44 +6,44 @@ import { logger } from './logger.js';
 import { getFromDb, setInDb } from './database.js';
 
 const ACTION_TO_EVENT_TYPE = {
-  'Member Banned': EVENT_TYPES.MODERATION_BAN,
-  'Member Kicked': EVENT_TYPES.MODERATION_KICK,
-  'Member Timed Out': EVENT_TYPES.MODERATION_TIMEOUT,
-  'Member Untimeouted': EVENT_TYPES.MODERATION_UNTIMEOUT,
-  'Member Unbanned': EVENT_TYPES.MODERATION_UNBAN,
-  'User Warned': EVENT_TYPES.MODERATION_WARN,
-  'Warnings Viewed': EVENT_TYPES.MODERATION_WARN,
-  'Messages Purged': EVENT_TYPES.MODERATION_PURGE,
-  'Channel Locked': EVENT_TYPES.MODERATION_LOCK,
-  'Channel Unlocked': EVENT_TYPES.MODERATION_UNLOCK,
-  'DM Sent': EVENT_TYPES.MODERATION_DM,
-  'Log Channel Activated': EVENT_TYPES.MODERATION_CONFIG,
-  'Log Filter Updated': EVENT_TYPES.MODERATION_CONFIG,
-  'Case Created': EVENT_TYPES.MODERATION_CONFIG,
-  'Case Updated': EVENT_TYPES.MODERATION_CONFIG,
+  'Membre banni': EVENT_TYPES.MODERATION_BAN,
+  'Membre expulsé': EVENT_TYPES.MODERATION_KICK,
+  'Membre mis en timeout': EVENT_TYPES.MODERATION_TIMEOUT,
+  'Membre sorti du timeout': EVENT_TYPES.MODERATION_UNTIMEOUT,
+  'Membre débanni': EVENT_TYPES.MODERATION_UNBAN,
+  'Utilisateur averti': EVENT_TYPES.MODERATION_WARN,
+  'Avertissements consultés': EVENT_TYPES.MODERATION_WARN,
+  'Messages purgés': EVENT_TYPES.MODERATION_PURGE,
+  'Salon verrouillé': EVENT_TYPES.MODERATION_LOCK,
+  'Salon déverrouillé': EVENT_TYPES.MODERATION_UNLOCK,
+  'Message privé envoyé': EVENT_TYPES.MODERATION_DM,
+  'Canal de logs activé': EVENT_TYPES.MODERATION_CONFIG,
+  'Filtre de logs mis à jour': EVENT_TYPES.MODERATION_CONFIG,
+  'Cas créé': EVENT_TYPES.MODERATION_CONFIG,
+  'Cas mis à jour': EVENT_TYPES.MODERATION_CONFIG,
 };
 
 function buildModerationLogData(event) {
   const targetIdMatch = event.target?.match(/\((\d+)\)/);
   const targetId = targetIdMatch?.[1];
   const executorIdMatch = event.executor?.match(/\((\d+)\)/);
-  const executorTag = event.executor?.split(' (')[0] || 'Moderator';
+  const executorTag = event.executor?.split(' (')[0] || 'Modérateur';
 
   const lines = [];
   if (event.target) {
-    lines.push(formatLogLine('User', event.target));
+    lines.push(formatLogLine('Utilisateur', event.target));
   }
   if (event.reason) {
     const reason = event.reason.length > 900
       ? `${event.reason.substring(0, 897)}...`
       : event.reason;
-    lines.push(formatLogLine('Reason', reason));
+    lines.push(formatLogLine('Raison', reason));
   }
   if (event.duration) {
-    lines.push(formatLogLine('Duration', event.duration));
+    lines.push(formatLogLine('Durée', event.duration));
   }
   if (event.caseId) {
-    lines.push(formatLogLine('Case', `\`${event.caseId}\``));
+    lines.push(formatLogLine('Cas', `\`${event.caseId}\``));
   }
 
   const meta = [];
@@ -55,7 +55,7 @@ function buildModerationLogData(event) {
     });
   }
 
-  const title = event.caseId ? `${event.action} · Case #${event.caseId}` : event.action;
+  const title = event.caseId ? `${event.action} · Cas #${event.caseId}` : event.action;
 
   return {
     title,
@@ -75,7 +75,7 @@ export async function logEvent({ client, guild, guildId, event }) {
       guild = client.guilds.cache.get(guildId) || await client.guilds.fetch(guildId).catch(() => null);
     }
     if (!guild) {
-      logger.warn('logEvent invoked without valid guild or guildId');
+      logger.warn('logEvent invoqué sans guild ou guildId valide');
       return;
     }
 
@@ -89,9 +89,9 @@ export async function logEvent({ client, guild, guildId, event }) {
       data,
     });
 
-    logger.info(`Moderation action logged: ${event.action} by ${event.executor} on ${event.target} in guild ${guild.id}`);
+    logger.info(`Action de modération enregistrée: ${event.action} par ${event.executor} sur ${event.target} dans le serveur ${guild.id}`);
   } catch (error) {
-    logger.error('Error logging moderation event:', error);
+    logger.error('Erreur lors de la journalisation de l’événement de modération:', error);
   }
 }
 
