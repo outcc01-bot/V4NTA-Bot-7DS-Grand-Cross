@@ -93,7 +93,7 @@ async function run() {
   const inputPath = args.input ? path.resolve(args.input) : await resolveLatestBackup(backupDir);
   const dropSchema = args['drop-schema'] === true || args['drop-schema'] === 'true';
 
-  logger.warn('Starting database restore', {
+  logger.warn('Démarrage de la restauration de la base de données', {
     event: 'restore.start',
     inputPath,
     targetUrl,
@@ -121,7 +121,7 @@ async function run() {
     inputPath
   ]);
 
-  logger.info('Database restore completed', {
+  logger.info('Restauration de la base de données terminée', {
     event: 'restore.completed',
     inputPath,
     targetUrl
@@ -129,7 +129,7 @@ async function run() {
 }
 
 run().catch((error) => {
-  logger.error('Restore command failed', {
+  logger.error('Échec de la commande de restauration', {
     event: 'restore.failed',
     error: error.message
   });
