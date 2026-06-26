@@ -47,7 +47,7 @@ export async function logTicketEvent({ client, guildId, event }) {
     await channel.send(messageOptions);
     logger.info(`Ticket event logged: ${event.type} in guild ${guildId}`);
   } catch (error) {
-    logger.error('Error logging ticket event:', error);
+    logger.error('Erreur lors de la journalisation de l\'événement du ticket :', error);
   }
 }
 
@@ -98,14 +98,14 @@ function getLogChannelForEventType(config, eventType) {
 }
 
 const TICKET_EVENT_STYLES = {
-  open: { color: 0x5865F2, title: 'Ticket Created' },
-  close: { color: 0xED4245, title: 'Ticket Closed' },
-  delete: { color: 0x8b0000, title: 'Ticket Deleted' },
-  claim: { color: 0x5865F2, title: 'Ticket Claimed' },
-  unclaim: { color: 0xFAA61A, title: 'Ticket Unclaimed' },
-  priority: { color: 0x9b59b6, title: 'Priority Updated' },
-  transcript: { color: 0x57F287, title: 'Transcript Generated' },
-  feedback: { color: 0x57F287, title: 'Feedback Received' },
+  open: { color: 0x5865F2, title: 'Ticket créé' },
+  close: { color: 0xED4245, title: 'Ticket fermé' },
+  delete: { color: 0x8b0000, title: 'Ticket supprimé' },
+  claim: { color: 0x5865F2, title: 'Ticket pris en charge' },
+  unclaim: { color: 0xFAA61A, title: 'Ticket libéré' },
+  priority: { color: 0x9b59b6, title: 'Priorité mise à jour' },
+  transcript: { color: 0x57F287, title: 'Transcription générée' },
+  feedback: { color: 0x57F287, title: 'Avis reçu' },
 };
 
 async function createTicketLogEmbed(guild, event) {
@@ -259,7 +259,7 @@ export function validateLogChannel(channel, botMember) {
   if (!channel || channel.type !== ChannelType.GuildText) {
     return {
       valid: false,
-      error: 'Channel must be a text channel.',
+      error: 'Le salon doit être un salon textuel.',
     };
   }
 
@@ -271,10 +271,33 @@ export function validateLogChannel(channel, botMember) {
   if (missing.length > 0) {
     return {
       valid: false,
-      error: `Missing permissions: ${missing.join(', ')}`,
+      error: `Permissions manquantes : ${missing.join(', ')}`,
     };
   }
 
   return { valid: true };
 }
 
+
+  const [config, ticketData] = await Promise.all([
+    getGuildConfig(client, guildId),
+    getTicketData(guildId, channelId)
+  ]);
+
+  const hasManageChannels = interaction.member.permissions.has(PermissionFlagsBits.ManageChannels);
+  const staffRoleId = config.ticketStaffRoleId || null;
+  const hasTicketStaffRole = Boolean(staffRoleId && interaction.member.roles?.cache?.has(staffRoleId));
+  const isTicketCreator = Boolean(
+    ticketData?.userId && String(ticketData.userId) === String(interaction.user.id),
+  );
+
+  return {
+    config,
+    ticketData,
+    hasManageChannels,
+    hasTicketStaffRole,
+    isTicketCreator,
+    canManageTicket: hasManageChannels || hasTicketStaffRole,
+    canCloseTicket: hasManageChannels || hasTicketStaffRole || isTicketCreator,
+  };
+}
