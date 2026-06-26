@@ -22,10 +22,10 @@ export async function checkRateLimit(key, maxAttempts = 5, windowMs = 60000) {
       return true;
     }
 
-    logger.debug(`Rate limit exceeded for ${key}`);
+    logger.debug(`Limite de taux dépassée pour ${key}`);
     return false;
   } catch (error) {
-    logger.error('Error checking rate limit:', error);
+    logger.error('Erreur lors de la vérification de la limite de taux :', error);
     return true; 
   }
 }
@@ -52,5 +52,5 @@ export function clearRateLimit(key) {
 
 export function clearAllRateLimits() {
   rateLimitStore.clear();
-  logger.info('All rate limits cleared');
+  logger.info('Toutes les limites de taux ont été réinitialisées');
 }
