@@ -155,7 +155,7 @@ export function getCategoryForItem(itemType) {
         cat.itemTypes.includes(itemType)
     ) || {
         id: 'other',
-        name: 'Other',
+        name: 'Autre',
         description: 'Divers',
         icon: '📦'
     };
