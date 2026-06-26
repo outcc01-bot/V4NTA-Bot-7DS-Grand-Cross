@@ -58,42 +58,42 @@ async function buildDashboardEmbed(guild, client) {
 
     return new EmbedBuilder()
         .setTitle('💰 Economy Dashboard')
-        .setDescription(`Manage the economy system for **${guild.name}**.\nSelect an option below to perform an action.`)
+        .setDescription(`Gérer le système économique de **${guild.name}**.\nSélectionnez l'une des options ci-dessous pour effectuer une action.`)
         .setColor(getColor('economy'))
         .addFields(
-            { name: '💰 Total in Circulation', value: `\`${currencySymbol}${totalInCirculation.toLocaleString()}\``, inline: true },
-            { name: '👥 Active Users', value: `\`${userCount.toLocaleString()}\``, inline: true },
-            { name: '📊 Average Balance', value: `\`${currencySymbol}${avgBalance.toLocaleString()}\``, inline: true },
-            { name: '💱 Currency Symbol', value: `\`${currencySymbol}\``, inline: true },
-            { name: '📝 Currency Name', value: `\`${currencyName}\``, inline: true },
+            { name: '💰 « Total en circulation », valeur : `\`${currencySymbol}${totalInCirculation.toLocaleString()}\``, inline: true },
+            { name: '👥 Nombre d'utilisateurs actifs : `\`${userCount.toLocaleString()}\``, inline: true },
+            { name: '📊 « Solde moyen », valeur : `\`${currencySymbol}${avgBalance.toLocaleString()}\``, inline: true },
+            { name: '💱 Symbole monétaire, valeur : `\`${currencySymbol}\``, inline: true },
+            { name: '📝 « Nom de la devise », valeur : `\`${currencyName}\``, inline : true },
         )
-        .setFooter({ text: 'Dashboard closes after 10 minutes of inactivity' })
+        .setFooter({ text: 'Le tableau de bord se ferme après 10 minutes d`inactivité' })
         .setTimestamp();
 }
 
 function buildSelectMenu(guildId) {
     return new StringSelectMenuBuilder()
         .setCustomId(`economy_dashboard_${guildId}`)
-        .setPlaceholder('Select an action...')
+        .setPlaceholder('Sélectionnez une action...')
         .addOptions(
             new StringSelectMenuOptionBuilder()
-                .setLabel('Add Currency')
-                .setDescription('Add currency to a user\'s wallet or bank')
+                .setLabel('Ajouter une devise')
+                .setDescription('Ajouter des fonds au portefeuille ou au compte bancaire d`un utilisateur')
                 .setValue('add_currency')
                 .setEmoji('💰'),
             new StringSelectMenuOptionBuilder()
                 .setLabel('Remove Currency')
-                .setDescription('Remove currency from a user\'s wallet or bank')
+                .setDescription('Retirer des fonds du portefeuille ou du compte bancaire d`un utilisateur')
                 .setValue('remove_currency')
                 .setEmoji('💸'),
             new StringSelectMenuOptionBuilder()
                 .setLabel('Change Currency Symbol')
-                .setDescription('Change the currency symbol (e.g., $, €, £)')
+                .setDescription('Modifier le symbole monétaire (par exemple, $, €, £)')
                 .setValue('change_currency')
                 .setEmoji('💱'),
             new StringSelectMenuOptionBuilder()
                 .setLabel('Change Currency Name')
-                .setDescription('Change the currency name (e.g., coins, credits)')
+                .setDescription('Modifier le nom de la devise (par exemple, pièces, crédits)')
                 .setValue('change_name')
                 .setEmoji('📝'),
         );
@@ -121,16 +121,16 @@ async function updateConfigFile(currencySymbol, currencyName) {
 
         configContent = configContent.replace(
             /name:\s*"[^"]*",\s*\/\/\s*Currency display name/,
-            `name: "${currencyName}", // Currency display name`
+            `name: « ${currencyName} », // Nom d'affichage de la devise`
         );
 
         configContent = configContent.replace(
             /namePlural:\s*"[^"]*",\s*\/\/\s*Plural display name/,
-            `namePlural: "${currencyName}s", // Plural display name`
+            `namePlural : « ${currencyName}s », // Nom d'affichage au pluriel`
         );
         
         await fs.writeFile(configPath, configContent, 'utf-8');
-        logger.info('Config file updated successfully');
+        logger.info('Le fichier de configuration a été mis à jour avec succès');
         return true;
     } catch (error) {
         logger.error('Error updating config file:', error);
