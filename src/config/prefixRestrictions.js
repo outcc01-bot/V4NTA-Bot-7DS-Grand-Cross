@@ -72,11 +72,11 @@ export function getPrefixRestriction(command, args, resolveSubcommandAlias) {
   const commandName = commandJson.name?.toLowerCase();
 
   if (command.prefixOnly === false || command.slashOnly === true) {
-    return { blocked: true, reason: 'This command is only available as a slash command.' };
+    return { blocked: true, reason: 'Cette commande est disponible uniquement sous forme de commande « / ».' };
   }
 
   if (SLASH_ONLY_COMMANDS.has(commandName)) {
-    return { blocked: true, reason: 'This command is only available as a slash command.' };
+    return { blocked: true, reason: 'Cette commande est disponible uniquement sous forme de commande « / ».' };
   }
 
   const [firstArg, secondArg] = args.map((arg) => arg?.toLowerCase?.() || null);
@@ -91,13 +91,13 @@ export function getPrefixRestriction(command, args, resolveSubcommandAlias) {
     allSubcommandNames.every((name) => isSubcommandBlocked(commandName, name));
 
   if (allSubcommandsBlocked) {
-    return { blocked: true, reason: 'This command is only available as a slash command.' };
+    return { blocked: true, reason: 'Cette commande est disponible uniquement sous forme de commande « / ».' };
   }
 
   if (firstArg && GLOBAL_BLOCKED_SUBCOMMAND_GROUPS.has(firstArg)) {
     return {
       blocked: true,
-      reason: 'This configuration flow is only available as a slash command.',
+      reason: 'Cette procédure de configuration est disponible uniquement sous forme de commande « / ».',
     };
   }
 
@@ -111,7 +111,7 @@ export function getPrefixRestriction(command, args, resolveSubcommandAlias) {
   if (subcommandGroup && resolvedSecondArg && isSubcommandBlocked(commandName, resolvedSecondArg)) {
     return {
       blocked: true,
-      reason: 'This subcommand is only available as a slash command.',
+      reason: 'Cette commande est disponible uniquement sous forme de commande « / ».',
     };
   }
 
